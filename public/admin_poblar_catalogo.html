@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herramienta Admin: Poblar Catálogo</title>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 50px;
+            text-align: center;
+            background: #f4f6f9;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        button:hover {
+            background: #229954;
+        }
+
+        #log {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: left;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #ecf0f1;
+        }
+
+        .success {
+            color: #2ecc71;
+        }
+
+        .error {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛠️ Publicar Catálogo de Habitaciones en Firestore</h1>
+        <p>Esta acción creará o sobrescribirá todas las habitaciones en la colección <code>habitaciones_catalogo</code>.
+        </p>
+
+        <button onclick="poblarCatalogo()" id="publish-btn">Publicar Catálogo Ahora</button>
+
+        <div id="log">Esperando acción...</div>
+    </div>
+
+    <script>
+        // *****************************************************************
+        // 1. CONFIGURACIÓN DE TU PROYECTO FIREBASE
+        // DEBES REEMPLAZAR ESTOS VALORES (Mismos que en index.js)
+        // *****************************************************************
+        const firebaseConfig = {
+            apiKey: "AIzaSyCp3oscTZSuU82ZwOdHOL03uibtgCZoc-w",
+            authDomain: "hotel-la-reliquia.firebaseapp.com",
+            projectId: "hotel-la-reliquia",
+            storageBucket: "hotel-la-reliquia.firebasestorage.app",
+            messagingSenderId: "318030903600",
+            appId: "1:318030903600:web:bacc5e923f02231c2870f5",
+            measurementId: "G-ZDQX7Y4QRM"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const logDiv = document.getElementById('log');
+        const publishBtn = document.getElementById('publish-btn');
+
+        const appendLog = (message, className = '') => {
+            const p = document.createElement('p');
+            p.className = className;
+            p.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+            logDiv.appendChild(p);
+            logDiv.scrollTop = logDiv.scrollHeight; // Scroll al final
+        };
+
+        async function poblarCatalogo() {
+            publishBtn.disabled = true;
+            logDiv.innerHTML = '';
+            appendLog("Iniciando la generación del catálogo...", "success");
+
+            // =================================================================
+            // 2. RANGOS Y DATOS (Incluyendo las cabañas)
+            // =================================================================
+            const rangos = [
+                { inicio: 501, fin: 506, tipo: "Doble Estándar", precio: 95000, capacidad: 2 },
+                { inicio: 601, fin: 609, tipo: "Doble Superior", precio: 95000, capacidad: 2 },
+                { inicio: 701, fin: 712, tipo: "Triple", precio: 95000, capacidad: 3 },
+                { inicio: 901, fin: 912, tipo: "Suite Familiar", precio: 95000, capacidad: 4 }
+            ];
+
+            const habitacionesEspeciales = [
+                { numero: 'cabaña1', tipo: "Cabaña Vista", precio: 95000, capacidad: 4, descripcion: "Cabaña" },
+                { numero: 'cabaña2', tipo: "Cabaña Vista", precio: 95000, capacidad: 4, descripcion: "Cabaña" }
+            ];
+
+            const habitacionesParaSubir = [];
+
+            // Generar habitaciones por rangos
+            rangos.forEach(rango => {
+                for (let i = rango.inicio; i <= rango.fin; i++) {
+                    habitacionesParaSubir.push({
+                        numero: String(i),
+                        tipo: rango.tipo,
+                        precio_noche: rango.precio,
+                        capacidad: rango.capacidad,
+                        estado_local: '1', // '1' = Disponible
+                        descripcion: `Habitación estándar en el piso ${String(i).charAt(0)}.`
+                    });
+                }
+            });
+
+            // Agregar cabañas
+            habitacionesParaSubir.push(...habitacionesEspeciales.map(hab => ({
+                ...hab,
+                numero: hab.numero, // Ya es string
+                estado_local: '1',
+            })));
+
+
+            // =================================================================
+            // 3. SUBIDA CON BATCH WRITES
+            // =================================================================
+
+            const totalDocs = habitacionesParaSubir.length;
+            appendLog(`Total de ${totalDocs} documentos generados. Iniciando Batch Write...`, "success");
+
+            const batch = db.batch();
+            const coleccionRef = db.collection('habitaciones_catalogo');
+
+            habitacionesParaSubir.forEach(hab => {
+                // Usamos el número/nombre como ID del documento (ej: '101', 'cabaña1')
+                const docRef = coleccionRef.doc(hab.numero);
+                batch.set(docRef, hab); // set() crea o sobrescribe
+                appendLog(`-> Documento preparado: ${hab.numero}`);
+            });
+
+            try {
+                await batch.commit();
+                appendLog(`\n✅ PROCESO FINALIZADO. ${totalDocs} documentos subidos/actualizados.`, "success");
+            } catch (error) {
+                appendLog(`\n❌ ERROR FATAL DURANTE EL COMMIT: ${error.message}`, "error");
+            } finally {
+                publishBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

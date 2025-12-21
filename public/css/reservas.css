@@ -1,0 +1,529 @@
+:root {
+    --primary: #4f46e5;
+    --primary-dark: #4338ca;
+    --bg-main: #f8fafc;
+    --border: #ffffff;
+    --white: #ffffff;
+    --state-available: #c5c5c5b7;
+    --state-reserved: #fef3c7;
+    /* Amarillo suave para pendientes */
+    --state-occupied: #fee2e2;
+    /* Rojo suave para aceptadas */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-main);
+    color: #1e293b;
+    overflow-x: hidden;
+}
+
+/* HEADER */
+header {
+    background: var(--white);
+    padding: 0.8rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo-area h1 {
+    font-size: 1.2rem;
+    color: var(--primary);
+    font-weight: 700;
+}
+
+.badge {
+    font-size: 0.65rem;
+    background: #eef2ff;
+    color: var(--primary);
+    padding: 2px 8px;
+    border-radius: 99px;
+    margin-left: 10px;
+}
+
+/* MAIN & CALENDAR */
+main {
+    width: 100%;
+    padding: 1.5rem;
+}
+
+#calendar-container {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.calendar-top-bar {
+    padding: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+}
+
+.legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.dot.available {
+    background: #e2e8f0;
+}
+
+.dot.pending {
+    background: #fbbf24;
+}
+
+.dot.occupied {
+    background: #f87171;
+}
+
+/* TABLE LOGIC */
+#calendar-wrapper {
+    overflow: auto;
+    max-height: 75vh;
+}
+
+table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #f8fafc;
+    padding: 12px 5px;
+    font-size: 0.7rem;
+    color: #64748b;
+    border: 8px solid var(--border);
+}
+
+.room-header,
+.room-number-cell {
+    position: sticky;
+    left: 0;
+    z-index: 20;
+    background: var(--white) !important;
+    width: 60px;
+    min-width: 60px;
+    border: 8px solid var(--border);
+}
+
+.room-number-cell {
+    font-weight: 700;
+    color: var(--primary);
+    text-align: center;
+}
+
+.day-cell {
+    height: 50px;
+    min-width: 45px;
+    border: 2px solid #f1f5f9;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.day-cell:hover {
+    background-color: #63b0fc;
+}
+
+/* RESALTADO HOY */
+.today-cell {
+    background-color: #599ffa !important;
+    position: relative;
+}
+
+.today-cell:hover {
+    background-color: #0270ff
+}
+
+.today-cell::after {
+    /* content: "HOY"; position: absolute; bottom: 2px; left: 50%; */
+    transform: translateX(-50%);
+    font-size: 8px;
+    font-weight: 900;
+    color: #3b82f6;
+}
+
+/* ESTADOS */
+.state-available {
+    background-color: var(--state-available);
+
+}
+
+.state-reserved {
+    background-color: var(--state-reserved) !important;
+}
+
+.state-occupied {
+    background-color: var(--state-occupied) !important;
+}
+
+/* MODAL */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    width: 95%;
+    max-width: 600px;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.close-modal-x {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.info-reserva-banner {
+    background: #f1f5f9;
+    padding: 1rem;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-around;
+    font-size: 0.9rem;
+}
+
+.field-group label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: #64748b;
+}
+
+.field-group input {
+    width: 100%;
+    padding: 0.6rem;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+.room-tag {
+    background: #eef2ff;
+    padding: 5px 12px;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    font-size: 0.85rem;
+    border: 1px solid #c7d2fe;
+}
+
+.btn-remove {
+    background: none;
+    border: none;
+    color: #ef4444;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.modal-footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.total-price span {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--primary);
+}
+
+.btn-confirm {
+    background: var(--primary);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.btn-cancel {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+:root {
+    --primary: #4f46e5;
+    --border: #e2e8f0;
+    --white: #ffffff;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #f8fafc;
+    margin: 0;
+}
+
+header {
+    background: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.filters select {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+}
+
+main {
+    padding: 20px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#calendar-container {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.calendar-top-bar {
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+}
+
+#calendar-wrapper {
+    overflow: auto;
+    max-height: 80vh;
+}
+
+table {
+    width: 100%;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+th,
+td {
+    border-right: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    text-align: center;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background: #f8fafc;
+    z-index: 10;
+    font-size: 11px;
+    padding: 10px 0;
+}
+
+.room-header,
+.room-number-cell {
+    position: sticky;
+    left: 0;
+    background: white !important;
+    z-index: 20;
+    width: 60px;
+    font-weight: bold;
+    border-right: 2px solid var(--border);
+}
+
+.day-cell {
+    height: 45px;
+    width: 45px;
+    cursor: pointer;
+    font-size: 9px;
+}
+
+.today-cell {
+    background-color: #eff6ff !important;
+    border: 2px solid var(--primary) !important;
+}
+
+/* MODAL STYLES */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(3px);
+}
+
+.modal-content {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 500px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.full-width {
+    grid-column: span 2;
+}
+
+.banner {
+    background: #f1f5f9;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: space-around;
+}
+
+.room-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.room-tag {
+    background: #e0e7ff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+
+/* PRINT */
+@media print {
+
+    header,
+    .btns,
+    .btn-add,
+    .modal-overlay,
+    .legend {
+        display: none !important;
+    }
+
+    #calendar-wrapper {
+        overflow: visible;
+        max-height: none;
+    }
+
+    .room-header,
+    .room-number-cell {
+        position: static !important;
+    }
+
+    table {
+        font-size: 9pt;
+    }
+}
+
+/* ... (Mantener estilos anteriores y añadir estos) ... */
+
+.header-controls { display: flex; gap: 20px; flex-wrap: wrap; }
+.group-controls { 
+    display: flex; align-items: center; gap: 8px; 
+    background: #f1f5f9; padding: 5px 10px; border-radius: 8px;
+}
+
+.export-tools input[type="date"] {
+    padding: 4px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 11px;
+}
+
+.btn-excel { 
+    background: #16a34a; color: white; border: none; padding: 6px 12px; 
+    border-radius: 6px; cursor: pointer; font-weight: 600;
+}
+
+.btn-excel:hover { background: #15803d; }
+
+.btn-print { 
+    background: #64748b; color: white; border: none; padding: 6px 12px; 
+    border-radius: 6px; cursor: pointer;
+}
+
+/* Ocultar herramientas de exportación al imprimir */
+@media print {
+    .header-controls, .badge { display: none !important; }
+}
