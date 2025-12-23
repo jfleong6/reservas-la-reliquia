@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oasis Campestre | Menú Digital</title>
+    <link rel="stylesheet" href="static/css/menu-digital.css">
+    <link rel="stylesheet" href="static/css/card.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <script type="module" src="static/js/firebase-config.js"></script>
+    <script type="module" src="static/js/menu-digital.js"></script>
+</head>
+
+<body>
+
+    <header>
+        <div>
+            <h1>OASIS CAMPESTRE</h1>
+            <p>Sabores de nuestra tierra</p>
+        </div>
+    </header>
+
+    <div class="nav-wrapper">
+        <nav id="cat-nav">
+        </nav>
+    </div>
+
+    <main class="menu-display">
+        <div id="dish-container">
+        </div>
+        <div class="pagination-bar" id="dots-container"></div>
+    </main>
+
+    <div class="cart-floating-btn" id="open-cart-btn">
+        <span class="cart-icon">🛒</span>
+        <span id="cart-count">0</span>
+    </div>
+
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>Tu Pedido</h2>
+                <button id="close-cart-btn" class="nav-btn">✕</button>
+            </div>
+            <div id="cart-items" class="cart-items">
+            </div>
+            <div class="cart-footer">
+                <div class="total-row">
+                    <span>Total:</span>
+                    <span id="cart-total">$0</span>
+                </div>
+                <button id="btn-checkout" class="btn-confirmar">Confirmar Pedido</button>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
