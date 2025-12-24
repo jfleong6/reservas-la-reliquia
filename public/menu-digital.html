@@ -1,21 +1,15 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oasis Campestre | Menú Digital</title>
+    <title>La Reliquia | Menú Digital</title>
     <link rel="stylesheet" href="static/css/menu-digital.css">
     <link rel="stylesheet" href="static/css/card.css">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap"
-        rel="stylesheet">
-    <script type="module" src="static/js/firebase-config.js"></script>
-    <script type="module" src="static/js/menu-digital.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script type="module" src="static/js/menu-digital.js" defer></script>
 </head>
-
 <body>
-
     <header>
         <div>
             <h1>Centro Vacacional La Reliquia</h1>
@@ -25,30 +19,27 @@
 
     <div class="nav-wrapper">
         <nav id="cat-nav">
-        </nav>
+            </nav>
     </div>
 
     <main class="menu-display">
-        <div id="dish-container">
-        </div>
+        <div id="dish-container"></div>
         <div class="pagination-bar" id="dots-container"></div>
     </main>
 
-    <div class="cart-floating-btn" id="open-cart-btn">
-        <span class="cart-icon">🛒</span>
-        <span id="cart-count">0</span>
+    <div style="display: none;"class="cart-floating-btn" id="open-cart-btn">
+        🛒 <span id="cart-count">0</span>
     </div>
 
-    <div id="cart-modal" class="cart-modal">
+    <div style="display: none;" id="cart-modal" class="cart-modal">
         <div class="cart-content">
             <div class="cart-header">
                 <h2>Tu Pedido</h2>
                 <button id="close-cart-btn" class="nav-btn">✕</button>
             </div>
-            <div id="cart-items" class="cart-items">
-            </div>
+            <div id="cart-items" class="cart-items"></div>
             <div class="cart-footer">
-                <div class="total-row">
+                <div class="total-info">
                     <span>Total:</span>
                     <span id="cart-total">$0</span>
                 </div>
@@ -56,7 +47,5 @@
             </div>
         </div>
     </div>
-
 </body>
-
 </html>

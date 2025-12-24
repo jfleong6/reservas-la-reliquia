@@ -1,30 +1,126 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="0; url=menu-digital.html">
-    <title>Cargando Oasis Campestre...</title>
-    
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            background-color: #FFFDF5; /* Color crema de tu marca */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            color: #556B2F; /* Verde oliva */
-        }
-    </style>
 
-    <script>
-        // Respaldo en JavaScript para asegurar la redirección
-        window.location.href = "menu-digital.html";
-    </script>
+    <title>Centro Vacacional La Reliquia | Hotel y Eventos en Pauna, Boyacá</title>
+
+    <meta name="description"
+        content="Descubre el Centro Vacacional La Reliquia en Pauna, Boyacá. Hotel con piscina, restaurante y el mejor lugar para matrimonios, quinceañeras y eventos sociales.">
+
+    <meta name="keywords"
+        content="Hotel Pauna Boyacá, Centro Vacacional, Piscina Pauna, Eventos sociales Boyacá, Matrimonios, Quinceañeras, Vacaciones en Boyacá, Restaurante La Reliquia">
+
+    <meta property="og:title" content="Centro Vacacional La Reliquia | Tu Refugio en Pauna">
+    <meta property="og:description"
+        content="El destino ideal para tus vacaciones y eventos especiales. Piscina, confort y naturaleza.">
+    <meta property="og:image" content="https://hotel-la-reliquia.web.app/static/img/piscina3.jpeg">
+    <meta property="og:url" content="https://hotel-la-reliquia.web.app/">
+    <meta property="og:type" content="website">
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="static/css/index.css">
+
+    <link rel="icon" type="image/png" href="static/img/favicon.png">
 </head>
+
 <body>
-    <p>Redirigiendo al menú...</p>
+
+    <nav>
+        <div class="nav-links">
+            <a href="#habitaciones">Habitaciones</a>
+            <a href="#experiencias">Experiencias</a>
+            <a href="#contacto">Contacto</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <p>BIENVENIDO A</p>
+            <h1>Centro Vacacional<br>La Reliquia</h1>
+            <p>Descubre el equilibrio perfecto entre el lujo y el espíritu de la montaña.</p>
+            <a href="menu-digital.html" class="btn-main">Explorar Experiencias</a>
+        </div>
+
+        <div class="scroll-down">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="white">
+                <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
+            </svg>
+        </div>
+    </section>
+
+    <section id="habitaciones" class="rooms-section">
+        <div class="section-title">
+            <p>Hospedaje de Ensueño</p>
+            <h2>Nuestras Suites</h2>
+        </div>
+
+        <div class="carousel-container">
+            <div class="carousel-track" id="room-track">
+            </div>
+
+            <button class="carousel-btn prev" onclick="moveSlide(-1)">❮</button>
+            <button class="carousel-btn next" onclick="moveSlide(1)">❯</button>
+        </div>
+    </section>
+    <section id="contacto" class="contact-section">
+        <div class="contact-container">
+            <div class="contact-info">
+                <p class="subtitle">Contacto</p>
+                <h2>¿Tienes preguntas?<br>Estamos para ayudarte</h2>
+
+                <div class="info-item">
+                    <div class="icon">📍</div>
+                    <div>
+                        <h4>Ubicación</h4>
+                        <a href="https://maps.app.goo.gl/qomdq2jF6kXgn7Ny8" target="_blank">Vía Principal Km 2, Pauna
+                            Otanche</a>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="icon">📞</div>
+                    <div>
+                        <h4>Reservas</h4>
+                        <p>+57 311 820 0458</p>
+                    </div>
+                </div>
+
+                <div class="info-item">
+                    <div class="icon">✉️</div>
+                    <div>
+                        <h4>Email</h4>
+                        <p>hotelvacacionallareliquia@gmail.com</p>
+                    </div>
+                </div>
+
+                <a href="https://wa.me/573118200458?text=Hola%20La%20Reliquia,%20vengo%20de%20la%20p%C3%A1gina%20web%20y%20deseo%20m%C3%A1s%20informaci%C3%B3n."
+                    class="btn-whatsapp">Chat en Vivo por WhatsApp</a>
+            </div>
+
+            <div class="contact-form-box">
+                <form id="contact-form">
+                    <input type="text" id="contact-name" placeholder="Nombre Completo" required>
+                    <input type="email" id="contact-email" placeholder="Correo Electrónico" required>
+                    <textarea id="contact-message" placeholder="¿En qué podemos ayudarte?" rows="5" required></textarea>
+                    <button type="submit" class="btn-main" id="contact-btn">Enviar Mensaje</button>
+                </form>
+                <div id="contact-status" style="margin-top: 15px; font-size: 0.9rem;"></div>
+            </div>
+        </div>
+        <a href="https://wa.me/573118200458?text=Hola%20La%20Reliquia,%20estoy%20interesado%20en%20una%20reserva."
+            class="whatsapp-float" target="_blank">
+            <span class="tooltip-wa">¡Hola! ¿En qué puedo ayudarte?</span>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </a>
+    </section>
+    <div id="notification-container" class="notification-container"></div>
+    <script src="static/js/index.js"></script>
+    <script type="module" src="static/js/contact.js"></script>
 </body>
+
 </html>

@@ -4,24 +4,30 @@
     --crema: #FFFDF5;
     --dorado: #C5A059;
     --texto: #2D2D2D;
-    --blanco: #FFFFFF;
+    --sombra: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+* {
+    box-sizing: border-box;
 }
 
 body {
     font-family: 'Poppins', sans-serif;
-    background-color: var(--crema);
+    background: var(--crema);
     color: var(--texto);
     margin: 0;
 }
 
+/* --- HEADER Y NAVEGACIÓN --- */
 header {
-    height: 18vh;
-    background: linear-gradient(rgba(0, 0, 0, .6), rgba(0, 0, 0, .6)),
-        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200') center/cover;
+    height: 20vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    background: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)),
+        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200') center/cover;
     color: white;
+    text-align: center;
 }
 
 .nav-wrapper {
@@ -29,64 +35,124 @@ header {
     top: 0;
     background: white;
     z-index: 100;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, .05);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, .05);
 }
 
 nav {
     display: flex;
     overflow-x: auto;
-    gap: 10px;
-    padding: 12px;
+    gap: 15px;
+    padding: 15px;
     justify-content: center;
     scrollbar-width: none;
 }
 
 .cat-btn {
-    background: none;
     border: none;
-    padding: 10px 20px;
+    background: none;
+    padding: 8px 15px;
     font-weight: 600;
-    color: #888;
+    color: #999;
     cursor: pointer;
     text-transform: uppercase;
-    font-size: .8rem;
-    border-radius: 50px;
-    transition: 0.3s;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
 }
 
 .cat-btn.active {
-    background: var(--verde-oliva);
-    color: white;
+    color: var(--verde-oliva);
+    border-bottom: 3px solid var(--dorado);
 }
 
-/* index.css */
+/* --- TARJETA DE PLATO (DISH CARD) --- */
+.dish-card {
+    display: flex;
+    background: white;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: var(--sombra);
+    margin: 20px auto;
+    max-width: 900px;
+    min-height: 450px;
+}
 
-.controls {
+.dish-image {
+    flex: 1; /* Ocupa espacio proporcional */
+    background-size: cover;
+    background-position: center;
+    min-height: 300px;
+}
+
+.dish-info {
+    flex: 1.2;
+    padding: 40px;
+    display: flex;
+    align-items: center; /* Alinea botones y texto al centro vertical */
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Contenedor central de texto */
+.dish-info > div {
+    text-align: center;
+    flex: 1;
+}
+
+h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    color: var(--verde-oliva);
+    margin: 0 0 10px 0;
+}
+
+.price {
+    color: var(--tierra);
+    font-weight: 700;
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+}
+
+.desc {
+    font-size: 0.95rem;
+    color: #666;
+    line-height: 1.6;
+}
+
+/* --- BOTONES DE NAVEGACIÓN --- */
+.nav-btn {
+    background: #f8f8f8;
+    color: var(--verde-oliva);
+    border: 1px solid #eee;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-top: auto; /* Empuja los controles al fondo de la info */
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0; /* Evita que el botón se achique */
 }
 
-/* Estilo para que el botón de añadir se vea como el de tu imagen */
-.btn-add-cart {
+.nav-btn:hover {
     background: var(--verde-oliva);
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 50px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.3s;
+    transform: scale(1.1);
 }
 
-.btn-add-cart:hover {
-    background: var(--tierra);
-}
-.price{
-    color: var(--verde-oliva);
-    font-weight: 800;
-    font-size: larger;
-    justify-items: flex-end;
+/* --- RESPONSIVE --- */
+@media (max-width: 768px) {
+    .dish-card {
+        flex-direction: column;
+        margin: 15px;
+    }
+    
+    .dish-info {
+        padding: 30px 15px;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
 }
