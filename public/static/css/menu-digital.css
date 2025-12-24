@@ -77,7 +77,7 @@ nav {
 }
 
 .dish-image {
-    flex: 1; /* Ocupa espacio proporcional */
+    flex: 2;/* Ocupa espacio proporcional */
     background-size: cover;
     background-position: center;
     min-height: 300px;
@@ -139,6 +139,31 @@ h2 {
     background: var(--verde-oliva);
     color: white;
     transform: scale(1.1);
+}
+/* --- ANIMACIONES DE TRANSICIÓN --- */
+.fade-out {
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px); /* Un pequeño movimiento hacia arriba para darle elegancia */
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Asegura que el contenedor tenga una transición suave */
+#dish-container {
+    transition: opacity 0.3s ease;
 }
 
 /* --- RESPONSIVE --- */
