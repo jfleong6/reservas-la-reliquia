@@ -1,17 +1,23 @@
 /* ==========================================================================
-   1. VARIABLES Y CONFIGURACIÓN BASE
-   ========================================================================== */
+    1. VARIABLES Y CONFIGURACIÓN BASE
+    ========================================================================== */
 :root {
-    --primary: #2D4031;
-    /* Verde Bosque */
-    --accent: #D4AF37;
-    /* Dorado */
-    --bg: #F9F7F2;
-    /* Crema */
+    --primary: #1a2d1f;
+    /* Verde más oscuro y sofisticado */
+    --accent: #b89446;
+    /* Dorado más maduro */
+    --accent-light: #e6d5b8;
+    /* Dorado claro para fondos */
+    --bg: #f8f6f0;
+    /* Crema más cálida */
     --white: #ffffff;
-    --text-muted: #666666;
-    --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    --transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+    --gray-light: #f0f0f0;
+    --gray-medium: #888888;
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+    --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --shadow-strong: 0 15px 35px rgba(0, 0, 0, 0.15);
+    --border-radius: 12px;
+    --transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
 }
 
 * {
@@ -33,8 +39,8 @@ body {
 }
 
 /* ==========================================================================
-   2. HERO SECTION
-   ========================================================================== */
+    2. HERO SECTION
+    ========================================================================== */
 .hero {
     height: 100vh;
     background: linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
@@ -52,13 +58,21 @@ body {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-    padding: 40px 20px; /* Reducimos padding lateral en móviles */
+    padding: 40px 20px;
     border-radius: 24px;
     border: 1px solid rgba(255, 255, 255, 0.2);
-    width: 90%; /* Asegura que no toque los bordes del celular */
+    width: 90%;
     max-width: 850px;
     margin: 0 auto;
     animation: fadeInUp 1s ease;
+}
+
+.hero-content p:first-child {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    opacity: 0.9;
 }
 
 h1 {
@@ -69,16 +83,37 @@ h1 {
     line-height: 1.1;
 }
 
-.hero-content p {
+.hero-content p:nth-child(4) {
     font-size: 1.2rem;
     font-weight: 300;
     margin-bottom: 35px;
     letter-spacing: 1px;
+    opacity: 0.9;
+}
+
+.scroll-down {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0) translateX(-50%);
+    }
+    40% {
+        transform: translateY(-10px) translateX(-50%);
+    }
+    60% {
+        transform: translateY(-5px) translateX(-50%);
+    }
 }
 
 /* ==========================================================================
-   3. COMPONENTES: BOTONES Y NAV
-   ========================================================================== */
+    3. COMPONENTES: BOTONES Y NAV
+    ========================================================================== */
 .btn-main {
     padding: 16px 45px;
     background: var(--accent);
@@ -89,7 +124,10 @@ h1 {
     text-transform: uppercase;
     font-size: 0.9rem;
     transition: var(--transition);
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
     border: none;
     cursor: pointer;
 }
@@ -98,28 +136,96 @@ h1 {
     background: var(--white);
     color: var(--primary);
     transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    box-shadow: var(--shadow-strong);
 }
 
+/* NAVEGACIÓN */
 nav {
-    position: absolute;
-    top: 30px;
+    position: fixed;
+    top: 0;
     width: 100%;
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    z-index: 100;
+    padding: 25px 50px;
+    z-index: 1000;
+    transition: var(--transition);
+    background: transparent;
+}
+
+nav.scrolled {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 15px 50px;
+    box-shadow: var(--shadow-soft);
+}
+
+nav.scrolled .nav-links a {
+    color: var(--primary);
+}
+
+nav.scrolled .logo {
+    color: var(--accent);
+}
+/* LOGO CON IMAGEN */
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Playfair Display', serif;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo:hover .logo-img {
+    transform: scale(1.05);
+}
+
+.logo-text {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+
+.nav-links {
+    display: flex;
+    gap: 30px;
 }
 
 .nav-links a {
     color: var(--white);
     text-decoration: none;
-    margin: 0 20px;
     font-size: 0.85rem;
     text-transform: uppercase;
     font-weight: 500;
     letter-spacing: 2px;
     transition: color 0.3s;
+    position: relative;
+}
+
+.nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--accent);
+    transition: width 0.3s;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
 }
 
 .nav-links a:hover {
@@ -127,102 +233,203 @@ nav {
 }
 
 /* ==========================================================================
-   4. SECCIÓN HABITACIONES (CARRUSEL)
-   ========================================================================== */
-.rooms-section {
+    4. SECCIONES GENERALES
+    ========================================================================== */
+.rooms-section,
+.experiences-section,
+.contact-section {
     padding: 120px 20px;
-    background: var(--white);
-    text-align: center;
 }
 
-.section-title p {
+.section-title {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-subtitle {
     color: var(--accent);
     text-transform: uppercase;
     letter-spacing: 4px;
     font-size: 0.8rem;
     margin-bottom: 12px;
+    display: block;
 }
 
 .section-title h2 {
     font-family: 'Playfair Display', serif;
     font-size: 3.2rem;
-    margin-bottom: 60px;
+    margin-bottom: 20px;
 }
 
-.carousel-container {
-    position: relative;
-    max-width: 1200px;
+.section-description {
+    color: var(--gray-medium);
+    max-width: 600px;
     margin: 0 auto;
-    overflow: hidden;
-    border-radius: 30px;
-    box-shadow: var(--shadow);
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
-}
-
-.slide {
-    min-width: 100%;
-    height: 650px;
-    background-size: cover;
-    background-position: center;
-    position: relative;
-}
-
-.slide-info {
-    position: absolute;
-    bottom: 40px;
-    left: 40px;
-    color: white;
-    text-align: left;
-    background: rgba(0, 0, 0, 0.25);
-    padding: 25px 35px;
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    color: white;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: var(--transition);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.carousel-btn:hover {
-    background: var(--accent);
-    border-color: var(--accent);
-}
-
-.prev {
-    left: 20px;
-}
-
-.next {
-    right: 20px;
+    font-size: 1.1rem;
 }
 
 /* ==========================================================================
-   5. SECCIÓN CONTACTO
-   ========================================================================== */
-.contact-section {
-    padding: 120px 20px;
+    5. GALERÍA MODERNA DE HABITACIONES
+    ========================================================================== */
+.gallery-modern {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
+.gallery-main {
+    position: relative;
+    margin-bottom: 40px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-medium);
+    height: 600px;
+}
+
+.main-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-image: url('../img/hab/hab1.jpeg');
+    transition: transform 1.2s ease, opacity 0.5s ease;
+}
+
+.main-image:hover {
+    transform: scale(1.02);
+}
+
+.image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
+    padding: 60px 40px 40px;
+    color: white;
+}
+
+.room-info h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+}
+
+.room-info p {
+    font-size: 1rem;
+    opacity: 0.9;
+    margin-bottom: 25px;
+    max-width: 500px;
+}
+
+.btn-details {
+    display: inline-block;
+    padding: 12px 30px;
+    background: transparent;
+    color: white;
+    border: 2px solid var(--accent);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.btn-details:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+}
+
+/* THUMBNAILS */
+.gallery-thumbnails {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 60px;
+    flex-wrap: wrap;
+}
+
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    opacity: 0.7;
+    transition: var(--transition);
+    box-shadow: var(--shadow-soft);
+}
+
+.thumbnail:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+.thumbnail.active {
+    opacity: 1;
+    border: 3px solid var(--accent);
+    transform: translateY(-5px);
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.thumbnail span {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+/* CARACTERÍSTICAS */
+.room-features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature {
+    text-align: center;
+    padding: 30px 20px;
+    background: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+}
+
+.feature:hover {
+    transform: translateY(-10px);
+    box-shadow: var(--shadow-medium);
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.feature h4 {
+    color: var(--primary);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
+}
+
+.feature p {
+    color: var(--gray-medium);
+    font-size: 0.9rem;
+}
+
+/* ==========================================================================
+    6. SECCIÓN CONTACTO
+    ========================================================================== */
 .contact-container {
     max-width: 1100px;
     margin: 0 auto;
@@ -230,6 +437,21 @@ nav {
     grid-template-columns: 1fr 1fr;
     gap: 80px;
     align-items: start;
+}
+
+.subtitle {
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 4px;
+    font-size: 0.8rem;
+    margin-bottom: 15px;
+}
+
+.contact-info h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    margin-bottom: 50px;
+    line-height: 1.2;
 }
 
 .info-item {
@@ -248,36 +470,334 @@ nav {
     align-items: center;
     justify-content: center;
     border-radius: 20px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-soft);
 }
 
+.info-item h4 {
+    font-size: 1.1rem;
+    margin-bottom: 5px;
+    color: var(--primary);
+}
+
+.info-item a,
+.info-item p {
+    color: var(--gray-medium);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.info-item a:hover {
+    color: var(--accent);
+}
+
+.btn-whatsapp {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #25D366;
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: var(--transition);
+    margin-top: 20px;
+}
+
+.btn-whatsapp:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(37, 211, 102, 0.3);
+}
+
+/* FORMULARIO */
 .contact-form-box {
     background: var(--white);
     padding: 50px;
     border-radius: 30px;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-medium);
 }
 
-.contact-form-box input,
-.contact-form-box textarea {
-    width: 100%;
-    padding: 18px;
+.form-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.form-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: var(--gray-medium);
+}
+
+.form-group {
     margin-bottom: 25px;
-    border: 1px solid #eee;
-    background: #fcfcfc;
-    border-radius: 15px;
-    font-family: inherit;
-    transition: border-color 0.3s;
 }
 
-.contact-form-box input:focus {
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--primary);
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 16px 20px;
+    border: 1px solid #e0e0e0;
+    background: #f9f9f9;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
     outline: none;
     border-color: var(--accent);
+    background: var(--white);
+    box-shadow: 0 0 0 3px rgba(184, 148, 70, 0.1);
+}
+
+.send-icon {
+    margin-left: 8px;
+    transition: transform 0.3s;
+}
+
+.btn-main:hover .send-icon {
+    transform: translateX(4px);
+}
+
+.form-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.form-note {
+    font-size: 0.85rem;
+    color: var(--gray-medium);
+    text-align: center;
+}
+
+.form-note a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+.form-note a:hover {
+    text-decoration: underline;
 }
 
 /* ==========================================================================
-   6. WHATSAPP Y ALERTAS
-   ========================================================================== */
+    7. FOOTER MEJORADO
+    ========================================================================== */
+.main-footer {
+    background: var(--primary);
+    color: white;
+    padding-top: 2vw;
+}
+
+.footer-top {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 20px 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 50px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-brand h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 20px;
+}
+
+.footer-description {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.8;
+    margin-bottom: 25px;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.social-links a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: white;
+    transition: var(--transition);
+}
+
+.social-links a:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+}
+
+.footer-col h4 {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    color: white;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.footer-col h4::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+}
+
+.footer-list {
+    list-style: none;
+}
+
+.footer-list li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.95rem;
+    opacity: 0.8;
+    transition: opacity 0.3s;
+}
+
+.footer-list li:hover {
+    opacity: 1;
+}
+
+.footer-list a {
+    color: white;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-list a:hover {
+    color: var(--accent-light);
+}
+
+.certifications {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.cert-badge {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.newsletter-text {
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+.newsletter {
+    display: flex;
+    margin-top: 10px;
+}
+
+.newsletter input {
+    flex: 1;
+    padding: 12px 15px;
+    border: none;
+    border-radius: 30px 0 0 30px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 0.9rem;
+}
+
+.newsletter input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.newsletter button {
+    background: var(--accent);
+    color: var(--primary);
+    border: none;
+    padding: 0 20px;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.newsletter button:hover {
+    background: var(--accent-light);
+}
+
+.footer-bottom {
+    padding: 0px;
+    text-align: center;
+}
+
+.footer-bottom-content {
+    max-width: 1300px;
+    margin: 0 0vw;
+    display: flex;
+    flex-direction: column;
+    /* gap: 15px; */
+}
+
+.footer-legal {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.footer-legal a {
+    color: rgba(255, 255, 255, 0.7);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.footer-legal a:hover {
+    color: var(--accent);
+}
+
+.design-credit {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-top: 1vw;
+}
+
+.design-credit span {
+    color: var(--accent);
+    font-weight: 900;
+}
+
+/* ==========================================================================
+    8. WHATSAPP Y ALERTAS
+    ========================================================================== */
 .whatsapp-float {
     position: fixed;
     bottom: 35px;
@@ -313,7 +833,7 @@ nav {
     font-size: 0.85rem;
     font-weight: 600;
     white-space: nowrap;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-medium);
     opacity: 0;
     transition: var(--transition);
     pointer-events: none;
@@ -335,7 +855,7 @@ nav {
     color: white;
     padding: 18px 30px;
     border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-strong);
     backdrop-filter: blur(10px);
     margin-bottom: 12px;
     display: flex;
@@ -345,9 +865,25 @@ nav {
     animation: slideIn 0.5s ease forwards;
 }
 
+.custom-alert.error {
+    border-left-color: #ff6b6b;
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+}
+
 /* ==========================================================================
-   7. ANIMACIONES Y MEDIA QUERIES
-   ========================================================================== */
+    9. ANIMACIONES Y MEDIA QUERIES
+    ========================================================================== */
 @keyframes pulse-wa {
     0% {
         box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
@@ -386,6 +922,15 @@ nav {
     }
 }
 
+/* ==========================================================================
+    10. RESPONSIVE DESIGN
+    ========================================================================== */
+@media (max-width: 1200px) {
+    .gallery-modern {
+        padding: 0 40px;
+    }
+}
+
 @media (max-width: 992px) {
     .contact-container {
         grid-template-columns: 1fr;
@@ -395,54 +940,170 @@ nav {
     .hero-content {
         padding: 40px 25px;
     }
+
+    .gallery-main {
+        height: 500px;
+    }
 }
 
 @media (max-width: 768px) {
-    .slide {
-        height: 450px;
+    .gallery-main {
+        height: 400px;
     }
 
     h1 {
         font-size: 2.8rem;
     }
 
-    .carousel-btn {
-        width: 50px;
-        height: 50px;
+    .section-title h2 {
+        font-size: 2.5rem;
+    }
+
+    .room-features {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 40px;
+    }
+
+    .footer-col h4::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .social-links {
+        justify-content: center;
+    }
+
+    .footer-list li {
+        justify-content: center;
+    }
+
+    nav {
+        padding: 20px;
+    }
+
+    .nav-links {
+        gap: 15px;
+    }
+
+    .nav-links a {
+        font-size: 0.75rem;
+        letter-spacing: 1px;
+    }
+    .logo-img {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
     }
 }
-@media (max-width: 480px) {
+
+@media (max-width: 576px) {
     .hero {
         padding: 0 10px;
-        background-attachment: scroll; /* Mejora el rendimiento en móviles */
+        background-attachment: scroll;
     }
 
     h1 {
-        font-size: 2.2rem; /* Tamaño de letra más cómodo para el celular */
+        font-size: 2.2rem;
         line-height: 1.2;
     }
 
-    .hero-content p {
+    .hero-content p:nth-child(4) {
         font-size: 1rem;
         margin-bottom: 25px;
     }
 
-    .nav-links {
-        display: flex;
-        flex-wrap: wrap; /* Para que los links no se amontonen */
-        justify-content: center;
-        gap: 10px;
+    .btn-main {
+        padding: 14px 35px;
+        font-size: 0.85rem;
     }
 
-    .nav-links a {
-        margin: 0 5px;
-        font-size: 0.7rem; /* Links más pequeños arriba */
+    .gallery-main {
+        height: 300px;
     }
-    
+
+    .thumbnail {
+        width: 70px;
+        height: 70px;
+    }
+
+    .room-features {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .contact-form-box {
+        padding: 30px 20px;
+    }
+
+    .info-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
     .whatsapp-float {
         width: 55px;
         height: 55px;
         bottom: 20px;
         right: 20px;
+    }
+
+    .tooltip-wa {
+        display: none;
+    }
+
+    .footer-legal {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .rooms-section,
+    .experiences-section,
+    .contact-section {
+        padding: 80px 20px;
+    }
+}
+
+@media (max-width: 400px) {
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-end;
+    }
+
+    .gallery-thumbnails {
+        gap: 10px;
+    }
+
+    .thumbnail {
+        width: 60px;
+        height: 60px;
+    }
+
+    .feature {
+        padding: 20px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        gap: 8px;
+    }
+    
+    .logo-img {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .logo-text {
+        font-size: 1.1rem;
     }
 }
