@@ -32,7 +32,7 @@ loginForm.addEventListener('submit', async (e) => {
 
         // Redirigir a la página del menú (o reservas según prefieras)
         setTimeout(() => {
-            window.location.href = 'index.html'; 
+            window.location.href = 'dashboard.html'; 
         }, 1500);
 
     } catch (error) {

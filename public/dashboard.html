@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Hotel La Reliquia</title>
+
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="static/css/dashboard.css">
+    <link rel="icon" type="image/png" href="static/img/Logo.ico">
+</head>
+
+<body class="dashboard-body">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-container">
+                <img src="static/img/LOGO.png" alt="Hotel La Reliquia" class="logo-img">
+                <span class="logo-text">La Reliquia</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebar-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+
+        <div class="sidebar-menu">
+            <!-- Grupo Principal -->
+            <div class="menu-group">
+                <div class="menu-item active" data-view="dashboard">
+                    <i class="fas fa-home"></i>
+                    <span>Dashboard</span>
+                </div>
+            </div>
+
+            <!-- Grupo Reservas -->
+            <div class="menu-group">
+                <h3 class="menu-group-title">Reservas</h3>
+                <div class="menu-item" data-view="reservas">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Calendario</span>
+                </div>
+            </div>
+
+            <!-- Grupo Comunicación -->
+            <div class="menu-group">
+                <h3 class="menu-group-title">Comunicación</h3>
+                <div class="menu-item" data-view="mensajes">
+                    <i class="fas fa-envelope"></i>
+                    <span>Mensajes</span>
+                    <span class="menu-badge badge-danger oculto"></span>
+                </div>
+            </div>
+
+            <!-- Grupo Gestión -->
+            <div class="menu-group">
+                <h3 class="menu-group-title">Gestión</h3>
+                <div class="menu-item" data-view="habitaciones">
+                    <i class="fas fa-bed"></i>
+                    <span>Habitaciones</span>
+                </div>
+                <div class="menu-item" data-view="menu-digital">
+                    <i class="fas fa-utensils"></i>
+                    <span>Menú Digital</span>
+                </div>
+            </div>
+
+            <!-- Grupo Configuración -->
+            <div class="menu-group oculto">
+                <h3 class="menu-group-title">Configuración</h3>
+                <div class="menu-item" data-view="configuracion">
+                    <i class="fas fa-cog"></i>
+                    <span>Configuración</span>
+                </div>
+                <div class="menu-item" data-view="usuarios">
+                    <i class="fas fa-users"></i>
+                    <span>Usuarios</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Administrador</span>
+                    <span class="user-email">admin@lareliquia.com</span>
+                </div>
+            </div>
+            <button class="logout-btn" id="logout-btn">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Cerrar Sesión</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="main-content">
+        <!-- HEADER -->
+        <header class="main-header">
+            <div class="header-left">
+                <h1 class="page-title" id="page-title">Dashboard</h1>
+                <nav class="breadcrumb">
+                    <span>Inicio</span>
+                    <i class="fas fa-chevron-right"></i>
+                    <span id="current-page">Dashboard</span>
+                </nav>
+            </div>
+
+            <div class="header-right">
+                <!-- Notificaciones -->
+                <!-- En dashboard.html, actualizar el panel de notificaciones: -->
+                <div class="notification-dropdown">
+                    <button class="notification-btn" id="notification-btn">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-count">0</span>
+                    </button>
+                    <div class="notification-panel" id="notification-panel" style="display: none;">
+                        <div class="notification-header">
+                            <h3>Notificaciones</h3>
+                            <button class="mark-all-read">Marcar todas</button>
+                        </div>
+                        <div class="notification-list">
+                            <!-- Las notificaciones se cargarán aquí dinámicamente -->
+                            <div class="loading-notifications">
+                                <div class="loading-spinner"></div>
+                                <p>Cargando notificaciones...</p>
+                            </div>
+                        </div>
+                        <div class="notification-footer">
+                            <a href="#" class="view-all">Ver todas las notificaciones</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buscador -->
+                <div class="search-box oculto">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Buscar reservas, mensajes..." id="global-search">
+                </div>
+
+                <!-- Usuario móvil -->
+                <div class="mobile-user" id="mobile-user">
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- CONTENT WRAPPER -->
+        <div class="content-wrapper">
+            <!-- Aquí se cargarán las diferentes vistas -->
+            <div id="view-container" class="view-container">
+
+                <!-- VISTA DASHBOARD (por defecto) -->
+                <div class="view-content active" id="view-dashboard">
+
+                    <!-- Dos Columnas: Actividad Reciente + Ocupación -->
+                    <div class="content-grid">
+                        <!-- Columna 1: Actividad Reciente -->
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2>Actividad Reciente</h2>
+                                <button class="btn-text">Ver todo</button>
+                            </div>
+                            <div class="activity-list">
+
+                            </div>
+                        </div>
+
+                        <!-- Columna 2: Estado de Habitaciones -->
+                        <div class="content-card">
+                            <div class="card-header">
+                                <h2>Hab</h2>
+                                <div class="room-legend">
+                                    <span class="legend-item">
+                                        <div class="legend-dot occupied"></div> Ocupada
+                                    </span>
+                                    <span class="legend-item">
+                                        <div class="legend-dot available"></div> Disponible
+                                    </span>
+                                    <span class="legend-item">
+                                        <div class="legend-dot maintenance"></div> Mantenimiento
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="room-status-grid">
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Últimos Mensajes -->
+                    <!-- <div class="content-card full-width">
+                        <div class="card-header">
+                            <h2>Últimos Mensajes</h2>
+                            <button class="btn-primary">
+                                <i class="fas fa-envelope"></i>
+                                Ver todos
+                            </button>
+                        </div>
+                        <div class="messages-table">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Email</th>
+                                        <th>Mensaje</th>
+                                        <th>Fecha</th>
+                                        <th>Estado</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div> -->
+                </div>
+
+                <!-- VISTA RESERVAS (oculta por defecto) -->
+                <div class="view-content" id="view-reservas">
+                    <div class="view-header">
+                        <h2>Calendario de Reservas</h2>
+                        <p>Gestión y visualización de todas las reservas</p>
+                    </div>
+                    <div class="placeholder-content">
+                        <i class="fas fa-calendar-alt"></i>
+                        <h3>Vista de Reservas</h3>
+                        <p>Esta vista se cargará próximamente con el calendario interactivo.</p>
+                    </div>
+                </div>
+
+                <!-- VISTA MENSAJES (oculta por defecto) -->
+                <div class="view-content" id="view-mensajes">
+                    <div class="messages-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Email</th>
+                                    <th>Mensaje</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- OTRAS VISTAS... -->
+
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="main-footer">
+            <div class="footer-content">
+                <p>© 2024 Hotel La Reliquia - Sistema de Gestión Hotelera</p>
+                <div class="footer-links">
+                    <span id="current-date">Cargando fecha...</span>
+                    <span class="separator">|</span>
+                    <span>Usuario: <strong>admin@lareliquia.com</strong></span>
+                    <span class="separator">|</span>
+                    <span>Último acceso: <strong>Hoy 08:30 AM</strong></span>
+                </div>
+            </div>
+        </footer>
+    </main>
+
+    <!-- MOBILE MENU OVERLAY -->
+    <div class="mobile-overlay" id="mobile-overlay"></div>
+
+    <!-- MODAL DE LOGOUT -->
+    <div class="modal-overlay" id="logout-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>¿Cerrar Sesión?</h3>
+                <button class="close-modal" data-modal="logout-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Estás a punto de salir del sistema de gestión.</p>
+                <p>¿Estás seguro que deseas cerrar sesión?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary close-modal" data-modal="logout-modal">Cancelar</button>
+                <button class="btn-danger" id="confirm-logout">Sí, cerrar sesión</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="static/js/dashboard.js"></script>
+</body>
+
+</html>
