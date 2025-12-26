@@ -15,6 +15,7 @@
         rel="stylesheet">
 
     <link rel="stylesheet" href="static/css/dashboard.css">
+    <link rel="stylesheet" href="static/css/dashboard-reservas.css">
     <link rel="icon" type="image/png" href="static/img/Logo.ico">
 </head>
 
@@ -229,16 +230,63 @@
 
                 <!-- VISTA RESERVAS (oculta por defecto) -->
                 <div class="view-content" id="view-reservas">
-                    <div class="view-header">
-                        <h2>Calendario de Reservas</h2>
-                        <p>Gestión y visualización de todas las reservas</p>
+                    <div class="reservas-controls">
+                        <!-- Selector de vista -->
+                        <div class="view-tabs">
+                            <button class="view-tab active" data-view="mensual">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Mensual</span>
+                            </button>
+                            <button class="view-tab" data-view="semanal">
+                                <i class="fas fa-calendar-week"></i>
+                                <span>Semanal</span>
+                            </button>
+                            <button class="btn-primary" id="nueva-reserva-btn">
+                                <i class="fas fa-plus"></i> Nueva Reserva
+                            </button>
+                        </div>
+
+                        <!-- Navegación -->
+                        <div class="date-navigation">
+                            <button class="nav-btn" id="prev-date">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <h3 id="current-period">Cargando...</h3>
+                            <button class="nav-btn" id="next-date">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                            <button class="btn-today" id="btn-today">
+                                <i class="fas fa-calendar-day"></i>
+                                Hoy
+                            </button>
+                        </div>
                     </div>
-                    <div class="placeholder-content">
-                        <i class="fas fa-calendar-alt"></i>
-                        <h3>Vista de Reservas</h3>
-                        <p>Esta vista se cargará próximamente con el calendario interactivo.</p>
+
+                    <div class="reservas-container">
+                        <!-- Vista mensual -->
+                        <div class="calendario-vista active" id="vista-mensual">
+                            <div class="calendario-header">
+                                <div class="dia-semana">Lun</div>
+                                <div class="dia-semana">Mar</div>
+                                <div class="dia-semana">Mié</div>
+                                <div class="dia-semana">Jue</div>
+                                <div class="dia-semana">Vie</div>
+                                <div class="dia-semana">Sáb</div>
+                                <div class="dia-semana">Dom</div>
+                            </div>
+
+                            <div class="calendario-grid" id="calendario-mensual">
+                                <!-- Se generará dinámicamente -->
+                            </div>
+                        </div>
+
+                        <!-- Vista semanal -->
+                        <div class="calendario-vista" id="vista-semanal">
+                            <!-- Se generará dinámicamente -->
+                        </div>
                     </div>
                 </div>
+
 
                 <!-- VISTA MENSAJES (oculta por defecto) -->
                 <div class="view-content" id="view-mensajes">
@@ -261,6 +309,198 @@
                 </div>
 
                 <!-- OTRAS VISTAS... -->
+                <!-- EN LA VISTA RESERVAS, DESPUÉS DEL CALENDARIO -->
+                <!-- MODAL ÚNICO DE NUEVA RESERVA -->
+                <div class="modal-overlay" id="modal-nueva-reserva" style="display: none;">
+                    <div class="modal modal-xl">
+                        <div class="modal-header">
+                            <h3><i class="fas fa-plus-circle"></i> Nueva Reserva</h3>
+                            <button class="close-modal" onclick="cerrarModalReserva()">&times;</button>
+                        </div>
+
+                        <form id="form-nueva-reserva" onsubmit="event.preventDefault(); crearReserva();">
+                            <div class="modal-body modal-grid">
+
+                                <!-- PASO 1: FECHAS Y HUÉSPED -->
+                                <div class="modal-step active" id="step-1">
+                                    <h4><span class="step-number">1</span> Fechas y Huésped</h4>
+
+                                    <div class="form-row">
+                                        <div class="form-group">
+                                            <label><i class="fas fa-calendar-check"></i> Check-in *</label>
+                                            <input type="date" id="checkin-date" required
+                                                min="<?php echo date('Y-m-d'); ?>">
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><i class="fas fa-calendar-times"></i> Check-out *</label>
+                                            <input type="date" id="checkout-date" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label><i class="fas fa-user"></i> Huésped *</label>
+                                        <div class="huesped-search">
+                                            <input type="text" id="buscar-huesped"
+                                                placeholder="Buscar huésped existente o crear nuevo..."
+                                                list="huespedes-lista">
+                                            <datalist id="huespedes-lista"></datalist>
+                                            <button type="button" class="btn-small" onclick="buscarHuespedes()">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                        </div>
+                                        <small class="form-hint">Escribe el nombre o documento del huésped</small>
+                                    </div>
+
+                                    <div class="form-group" id="huesped-info" style="display: none;">
+                                        <div class="huesped-card">
+                                            <div class="huesped-header">
+                                                <span class="huesped-nombre" id="selected-huesped-nombre"></span>
+                                                <span class="huesped-doc" id="selected-huesped-doc"></span>
+                                            </div>
+                                            <div class="huesped-body">
+                                                <span><i class="fas fa-phone"></i> <span
+                                                        id="selected-huesped-tel"></span></span>
+                                                <span><i class="fas fa-envelope"></i> <span
+                                                        id="selected-huesped-email"></span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label><i class="fas fa-users"></i> Número de personas *</label>
+                                        <select id="numero-personas" required>
+                                            <option value="">Seleccionar...</option>
+                                            <option value="1">1 persona</option>
+                                            <option value="2">2 personas</option>
+                                            <option value="3">3 personas</option>
+                                            <option value="4">4 personas</option>
+                                            <option value="5">5+ personas</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- PASO 2: SELECCIÓN DE HABITACIONES -->
+                                <div class="modal-step" id="step-2">
+                                    <h4><span class="step-number">2</span> Seleccionar Habitaciones</h4>
+
+                                    <div class="habitaciones-disponibles">
+                                        <div class="filtros-habitaciones" style="display: none;">
+                                            <select id="filtro-tipo">
+                                                <option value="">Todos los tipos</option>
+                                                <option value="Doble Estándar">Doble Estándar</option>
+                                                <option value="Sencilla">Sencilla</option>
+                                                <option value="Suite">Suite</option>
+                                            </select>
+                                            <select id="filtro-piso">
+                                                <option value="">Todos los pisos</option>
+                                                
+                                            </select>
+                                        </div>
+
+                                        <div class="habitaciones-grid" id="habitaciones-grid">
+                                            <!-- Se cargarán dinámicamente -->
+                                            <div class="loading-habitaciones">
+                                                <div class="spinner"></div>
+                                                <p>Cargando habitaciones disponibles...</p>
+                                            </div>
+                                        </div>
+
+                                        <div class="habitaciones-seleccionadas" id="habitaciones-seleccionadas">
+                                            <h5>Habitaciones seleccionadas: <span id="count-selected">0</span></h5>
+                                            <div class="selected-rooms" id="selected-rooms-list">
+                                                <!-- Lista de habitaciones seleccionadas -->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- PASO 3: CONFIRMAR Y PAGO -->
+                                <div class="modal-step" id="step-3">
+                                    <h4><span class="step-number">3</span> Confirmar Reserva</h4>
+
+                                    <div class="resumen-reserva">
+                                        <div class="resumen-card">
+                                            <h5>Resumen de Reserva</h5>
+
+                                            <div class="resumen-item">
+                                                <span>Huésped:</span>
+                                                <strong id="resumen-huesped">--</strong>
+                                            </div>
+
+                                            <div class="resumen-item">
+                                                <span>Fechas:</span>
+                                                <strong id="resumen-fechas">--</strong>
+                                            </div>
+
+                                            <div class="resumen-item">
+                                                <span>Noches:</span>
+                                                <strong id="resumen-noches">0</strong>
+                                            </div>
+
+                                            <div class="resumen-item">
+                                                <span>Habitaciones:</span>
+                                                <strong id="resumen-habitaciones">--</strong>
+                                            </div>
+
+                                            <div class="resumen-item">
+                                                <span>Personas:</span>
+                                                <strong id="resumen-personas">--</strong>
+                                            </div>
+
+                                            <hr>
+
+                                            <div class="resumen-item total">
+                                                <span>Total estimado:</span>
+                                                <strong id="resumen-total">$0</strong>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><i class="fas fa-comment-alt"></i> Notas / Observaciones</label>
+                                            <textarea id="notas-reserva" rows="3"
+                                                placeholder="Cama extra, late check-out, preferencias especiales..."></textarea>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label><i class="fas fa-credit-card"></i> Método de Pago</label>
+                                            <select id="metodo-pago">
+                                                <option value="efectivo">Efectivo</option>
+                                                <option value="tarjeta">Tarjeta Crédito/Débito</option>
+                                                <option value="transferencia">Transferencia</option>
+                                                <option value="payu">PayU</option>
+                                                <option value="reservado">Reservado (sin pago)</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group" id="monto-adelanto" style="display: none;">
+                                            <label><i class="fas fa-money-bill-wave"></i> Adelanto / Señal</label>
+                                            <input type="number" id="monto-adelanto-input" placeholder="Monto pagado">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <div class="step-navigation">
+                                    <button type="button" class="btn-secondary" id="prev-step" onclick="cambiarPaso(-1)"
+                                        style="display: none;">
+                                        <i class="fas fa-arrow-left"></i> Anterior
+                                    </button>
+
+                                    <button type="button" class="btn-primary" id="next-step" onclick="cambiarPaso(1)">
+                                        Siguiente <i class="fas fa-arrow-right"></i>
+                                    </button>
+
+                                    <button type="submit" class="btn-success" id="submit-reserva"
+                                        style="display: none;">
+                                        <i class="fas fa-check-circle"></i> Confirmar Reserva
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -302,6 +542,8 @@
     </div>
 
     <script type="module" src="static/js/dashboard.js"></script>
+    <!-- Después de dashboard.js -->
+    <script type="module" src="static/js/dashboard-reservas.js"></script>
 </body>
 
 </html>
