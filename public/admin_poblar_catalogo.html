@@ -111,15 +111,15 @@
             // 2. RANGOS Y DATOS (Incluyendo las cabañas)
             // =================================================================
             const rangos = [
-                { inicio: 501, fin: 506, tipo: "Doble Estándar", precio: 95000, capacidad: 2 },
-                { inicio: 601, fin: 609, tipo: "Doble Superior", precio: 95000, capacidad: 2 },
-                { inicio: 701, fin: 712, tipo: "Triple", precio: 95000, capacidad: 3 },
-                { inicio: 901, fin: 912, tipo: "Suite Familiar", precio: 95000, capacidad: 4 }
+                { inicio: 501, fin: 506, tipo: "Doble Estándar", capacidad: 6, bloque: 5 },
+                { inicio: 601, fin: 609, tipo: "Doble Superior", capacidad: 4, bloque: 6 },
+                { inicio: 701, fin: 712, tipo: "Triple", capacidad: 4, bloque: 7 },
+                { inicio: 901, fin: 912, tipo: "Suite Familiar", capacidad: 4, bloque: 9 }
             ];
 
             const habitacionesEspeciales = [
-                { numero: 'cabaña1', tipo: "Cabaña Vista", precio: 95000, capacidad: 4, descripcion: "Cabaña" },
-                { numero: 'cabaña2', tipo: "Cabaña Vista", precio: 95000, capacidad: 4, descripcion: "Cabaña" }
+                { numero: 'cabaña1', tipo: "Cabaña Vista", capacidad: 16, descripcion: "Cabaña", bloque: "cabañas" },
+                { numero: 'cabaña2', tipo: "Cabaña Vista", capacidad: 10, descripcion: "Cabaña", bloque: "cabañas" }
             ];
 
             const habitacionesParaSubir = [];
@@ -130,20 +130,37 @@
                     habitacionesParaSubir.push({
                         numero: String(i),
                         tipo: rango.tipo,
-                        precio_noche: rango.precio,
                         capacidad: rango.capacidad,
                         estado_local: '1', // '1' = Disponible
-                        descripcion: `Habitación estándar en el piso ${String(i).charAt(0)}.`
+                        descripcion: `TV, WiFi, Baño Privado`,
+                        bloque: rango.bloque
                     });
                 }
             });
 
-            // Agregar cabañas
-            habitacionesParaSubir.push(...habitacionesEspeciales.map(hab => ({
-                ...hab,
-                numero: hab.numero, // Ya es string
-                estado_local: '1',
-            })));
+            habitacionesEspeciales.forEach(rango => {
+                habitacionesParaSubir.push({
+                    numero: rango.numero,
+                    tipo: rango.tipo,
+                    capacidad: rango.capacidad,
+                    estado_local: '1', // '1' = Disponible
+                    descripcion: `TV, WiFi, Baño Privado`,
+                    bloque: rango.bloque
+                });
+            });
+
+            const batch = db.batch();
+            habitacionesParaSubir.forEach(hab => {
+
+                const docRef = db
+                    .collection('habitaciones')
+                    .doc(hab.numero);
+
+                batch.set(docRef, hab);
+
+                appendLog(`-> Documento preparado: ${hab.numero} (Bloque ${hab.bloque})`);
+            });
+
 
 
             // =================================================================
@@ -153,15 +170,7 @@
             const totalDocs = habitacionesParaSubir.length;
             appendLog(`Total de ${totalDocs} documentos generados. Iniciando Batch Write...`, "success");
 
-            const batch = db.batch();
             const coleccionRef = db.collection('habitaciones_catalogo');
-
-            habitacionesParaSubir.forEach(hab => {
-                // Usamos el número/nombre como ID del documento (ej: '101', 'cabaña1')
-                const docRef = coleccionRef.doc(hab.numero);
-                batch.set(docRef, hab); // set() crea o sobrescribe
-                appendLog(`-> Documento preparado: ${hab.numero}`);
-            });
 
             try {
                 await batch.commit();

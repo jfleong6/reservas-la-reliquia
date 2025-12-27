@@ -41,13 +41,13 @@ function setupNavigation() {
     if (!state.currentView) {
         state.currentView = 'dashboard';
     }
-    
+
     // Mostrar vista actual
     showView(state.currentView);
-    
+
     // Resaltar ítem de menú activo
     highlightActiveMenuItem();
-    
+
     // Configurar botón "Ver todas"
     setupVerTodasButton();
 }
@@ -62,21 +62,21 @@ document.addEventListener('DOMContentLoaded', async () => {
 
 async function initDashboard() {
     if (isDashboardInitialized) return;
-    
+
     // 1. Inicializar navegación básica
     setupNavigation();
-    
+
     // 2. Inicializar sistema de notificaciones
     await notificacionesManager.init();
-    
+
     // 3. Cargar módulos según la vista
     if (state.currentView === 'dashboard') {
         await actividadesManager.loadRecentActivities();
     }
-    
+
     // 4. Configurar eventos globales
     setupGlobalEventListeners();
-    
+
     isDashboardInitialized = true;
 
     // Inicilicia nombres de login
@@ -88,24 +88,26 @@ function setupGlobalEventListeners() {
     const notificationBtn = document.getElementById('notification-btn');
     if (notificationBtn) {
         notificationBtn.addEventListener('click', (e) => {
+
             e.stopPropagation();
             notificacionesManager.togglePanel();
         });
     }
-    
+
     // Cerrar panel al hacer clic fuera
     document.addEventListener('click', (e) => {
+
         const notificationPanel = document.getElementById('notification-panel');
         const notificationBtn = document.getElementById('notification-btn');
-        
-        if (notificationPanel && 
+
+        if (notificationPanel &&
             notificationPanel.classList.contains('show') &&
-            !notificationPanel.contains(e.target) && 
+            !notificationPanel.contains(e.target) &&
             !notificationBtn.contains(e.target)) {
             notificacionesManager.hidePanel();
         }
     });
-    
+
     // Cerrar panel con ESC
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
@@ -142,7 +144,7 @@ function setupVerTodasButton() {
         verTodasBtn.addEventListener('click', async () => {
             verTodasBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Cargando...';
             verTodasBtn.disabled = true;
-            
+
             try {
                 await actividadesManager.loadRecentActivities();
                 showToast('Actividades actualizadas', 'success');
@@ -166,9 +168,9 @@ function showToast(message, type = 'info') {
         <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
         <span>${message}</span>
     `;
-    
+
     document.body.appendChild(toast);
-    
+
     setTimeout(() => toast.classList.add('show'), 10);
     setTimeout(() => {
         toast.classList.remove('show');
@@ -193,17 +195,17 @@ function showView(viewName) {
     document.querySelectorAll('.view-content').forEach(view => {
         view.classList.remove('active');
     });
-    
+
     // Mostrar la vista solicitada
     const targetView = document.getElementById(`view-${viewName}`);
     if (targetView) {
         targetView.classList.add('active');
         state.currentView = viewName;
-        
+
         // Cargar módulos específicos de la vista
         loadViewModules(viewName);
     }
-    
+
     // Actualizar título
     updatePageTitle(getViewTitle(viewName));
 }
@@ -227,26 +229,26 @@ function updatePageTitle(title) {
     if (elements.currentPage) {
         elements.currentPage.textContent = title;
     }
-    
+
     // Actualizar también el título del documento
     document.title = `${title} | Hotel La Reliquia`;
 }
 
 function loadViewModules(viewName) {
-    switch(viewName) {
+    switch (viewName) {
         case 'dashboard':
             setTimeout(async () => {
                 await actividadesManager.loadRecentActivities();
             }, 100);
             break;
-            
+
         case 'mensajes':
             setTimeout(() => {
                 mensajesManager.init(actividadesManager);
                 setupMessageFilters();
             }, 100);
             break;
-            
+
         case 'reservas':
             // Aquí iría el módulo de reservas
             console.log('Inicializando módulo de reservas...');
@@ -391,13 +393,11 @@ function setupEventListeners() {
     // Confirmar logout
     if (elements.confirmLogout) {
         elements.confirmLogout.addEventListener('click', () => {
-            // Aquí irá la lógica real de logout
-            alert('Cerrando sesión... (esto se conectará con Firebase)');
             elements.logoutModal.classList.remove('show');
             // Redirigir a login (temporal)
             setTimeout(() => {
                 window.location.href = 'login.html';
-            }, 1000);
+            }, 5000);
         });
     }
 

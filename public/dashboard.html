@@ -233,14 +233,17 @@
                     <div class="reservas-controls">
                         <!-- Selector de vista -->
                         <div class="view-tabs">
-                            <button class="view-tab active" data-view="mensual">
-                                <i class="fas fa-calendar-alt"></i>
-                                <span>Mensual</span>
-                            </button>
+
                             <button class="view-tab" data-view="semanal">
                                 <i class="fas fa-calendar-week"></i>
                                 <span>Semanal</span>
                             </button>
+
+                            <button class="view-tab active" data-view="mensual">
+                                <i class="fas fa-calendar-alt"></i>
+                                <span>Mensual</span>
+                            </button>
+
                             <button class="btn-primary" id="nueva-reserva-btn">
                                 <i class="fas fa-plus"></i> Nueva Reserva
                             </button>
@@ -263,26 +266,24 @@
                     </div>
 
                     <div class="reservas-container">
-                        <!-- Vista mensual -->
-                        <div class="calendario-vista active" id="vista-mensual">
-                            <div class="calendario-header">
-                                <div class="dia-semana">Lun</div>
-                                <div class="dia-semana">Mar</div>
-                                <div class="dia-semana">Mié</div>
-                                <div class="dia-semana">Jue</div>
-                                <div class="dia-semana">Vie</div>
-                                <div class="dia-semana">Sáb</div>
-                                <div class="dia-semana">Dom</div>
-                            </div>
-
-                            <div class="calendario-grid" id="calendario-mensual">
-                                <!-- Se generará dinámicamente -->
-                            </div>
-                        </div>
-
                         <!-- Vista semanal -->
                         <div class="calendario-vista" id="vista-semanal">
                             <!-- Se generará dinámicamente -->
+                        </div>
+
+                        <div class="calendario-grid" id="calendario-mensual">
+                            <div class="calendario-encabezados">
+                                <div class="calendario-dia-header">Lun</div>
+                                <div class="calendario-dia-header">Mar</div>
+                                <div class="calendario-dia-header">Mié</div>
+                                <div class="calendario-dia-header">Jue</div>
+                                <div class="calendario-dia-header">Vie</div>
+                                <div class="calendario-dia-header">Sáb</div>
+                                <div class="calendario-dia-header">Dom</div>
+                            </div>
+                            <div class="calendario-cuerpo" id="div-calendario-mensual">
+                                <!-- Se generará dinámicamente -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -309,8 +310,6 @@
                 </div>
 
                 <!-- OTRAS VISTAS... -->
-                <!-- EN LA VISTA RESERVAS, DESPUÉS DEL CALENDARIO -->
-                <!-- MODAL ÚNICO DE NUEVA RESERVA -->
                 <div class="modal-overlay" id="modal-nueva-reserva" style="display: none;">
                     <div class="modal modal-xl">
                         <div class="modal-header">
@@ -318,7 +317,8 @@
                             <button class="close-modal" onclick="cerrarModalReserva()">&times;</button>
                         </div>
 
-                        <form id="form-nueva-reserva" onsubmit="event.preventDefault(); crearReserva();">
+                        <!-- MODAL ÚNICO DE NUEVA RESERVA -->
+                        <form id="form-nueva-reserva">
                             <div class="modal-body modal-grid">
 
                                 <!-- PASO 1: FECHAS Y HUÉSPED -->
@@ -394,7 +394,7 @@
                                             </select>
                                             <select id="filtro-piso">
                                                 <option value="">Todos los pisos</option>
-                                                
+
                                             </select>
                                         </div>
 
@@ -543,7 +543,7 @@
 
     <script type="module" src="static/js/dashboard.js"></script>
     <!-- Después de dashboard.js -->
-    <script type="module" src="static/js/dashboard-reservas.js"></script>
+    <script type="module" src="static/js/dashboard-interfaz-reserva.js"></script>
 </body>
 
 </html>
