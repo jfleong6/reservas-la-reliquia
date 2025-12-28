@@ -811,8 +811,8 @@ class DashboardReservas {
             const finSemana = new Date(inicioSemana);
             finSemana.setDate(inicioSemana.getDate() + 6);
 
-            periodElement.textContent =
-                `${this.formatearFechaCorta(inicioSemana)} - ${this.formatearFechaCorta(finSemana)}`;
+            periodElement.innerHTML =
+                `${this.formatearFechaCorta(inicioSemana)} - ${this.formatearFechaCorta(finSemana)}\t <strong>${this.currentDate.getFullYear()}</strong>`;
         }
     }
 

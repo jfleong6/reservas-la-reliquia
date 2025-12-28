@@ -135,7 +135,7 @@ class MensajesManager {
         }
         
         // Mostrar notificación toast
-        this.showNewMessageNotification(message);
+        // this.showNewMessageNotification(message);
     }
     
     showNewMessageNotification(message) {

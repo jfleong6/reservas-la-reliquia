@@ -245,7 +245,7 @@ function loadViewModules(viewName) {
         case 'mensajes':
             setTimeout(() => {
                 mensajesManager.init(actividadesManager);
-                setupMessageFilters();
+                // setupMessageFilters();
             }, 100);
             break;
 
