@@ -251,7 +251,7 @@ function loadViewModules(viewName) {
 
         case 'reservas':
             // Aquí iría el módulo de reservas
-            console.log('Inicializando módulo de reservas...');
+            // console.log('Inicializando módulo de reservas...');
             break;
     }
 }
@@ -454,7 +454,7 @@ function checkMobileView() {
 function performSearch(query) {
     if (!query.trim()) return;
 
-    console.log(`Buscando: ${query}`);
+    // console.log(`Buscando: ${query}`);
     // Aquí se implementará la búsqueda real
     alert(`Búsqueda: ${query}\n(Esta funcionalidad se implementará próximamente)`);
 }
@@ -526,4 +526,4 @@ window.dashboard = {
 // Iniciar simulación de datos (solo para demo)
 // simulateDataUpdates();
 
-console.log('Dashboard Hotel La Reliquia - Cargado correctamente');
+// console.log('Dashboard Hotel La Reliquia - Cargado correctamente');

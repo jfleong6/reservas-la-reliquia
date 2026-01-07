@@ -1,6 +1,8 @@
 // dashboard-interfaz-reserva.js
 
 import { db } from './firebase-config.js';
+// import { reservaModal } from './crear-reserva.js';
+import { reservaModal } from './crear-reserva-1.js';
 import {
     collection,
     getDocs,
@@ -38,7 +40,7 @@ class DashboardReservas {
 
     async init() {
         try {
-            console.log('Inicializando Dashboard de Reservas...');
+            // console.log('Inicializando Dashboard de Reservas...');
             this.mostrarLoading(true);
 
             // Cargar datos iniciales
@@ -56,7 +58,7 @@ class DashboardReservas {
             this.mostrarLoading(false);
             this.cambiarVista("semanal");
 
-            console.log('Dashboard inicializado correctamente');
+            // console.log('Dashboard inicializado correctamente');
 
         } catch (error) {
             console.error('Error inicializando dashboard:', error);
@@ -135,7 +137,7 @@ class DashboardReservas {
 
     async cargarHabitaciones() {
         try {
-            console.log('Cargando habitaciones...');
+            // console.log('Cargando habitaciones...');
             const querySnapshot = await getDocs(collection(db, 'habitaciones'));
             this.habitaciones = [];
 
@@ -148,7 +150,7 @@ class DashboardReservas {
             });
 
             this.habitaciones.sort((a, b) => parseInt(a.numero) - parseInt(b.numero));
-            console.log(`${this.habitaciones.length} habitaciones cargadas`);
+            // console.log(`${this.habitaciones.length} habitaciones cargadas`);
 
         } catch (error) {
             console.error('Error cargando habitaciones:', error);
@@ -164,7 +166,7 @@ class DashboardReservas {
             inicioMes.setHours(0, 0, 0, 0);
             finMes.setHours(23, 59, 59, 999);
 
-            console.log(`Cargando reservas del mes: ${this.MESES[fecha.getMonth()]} ${fecha.getFullYear()}`);
+            // console.log(`Cargando reservas del mes: ${this.MESES[fecha.getMonth()]} ${fecha.getFullYear()}`);
 
             const q = query(
                 collection(db, 'reservas_activas'),
@@ -188,7 +190,7 @@ class DashboardReservas {
                 this.reservas.push(reserva);
             });
 
-            console.log(`${this.reservas.length} reservas cargadas para el mes`);
+            // console.log(`${this.reservas.length} reservas cargadas para el mes`);
 
         } catch (error) {
             console.error('Error cargando reservas:', error);
@@ -222,7 +224,7 @@ class DashboardReservas {
                 this.reservas.push(reserva);
             });
 
-            console.log(`${this.reservas.length} reservas cargadas para la semana`);
+            // console.log(`${this.reservas.length} reservas cargadas para la semana`);
 
         } catch (error) {
             console.error('Error cargando reservas de la semana:', error);
@@ -749,8 +751,8 @@ class DashboardReservas {
 
         // Mostrar vista correspondiente
         document.querySelectorAll('.calendario-vista').forEach(v => {
-            console.log(v.id);
-            console.log(vista);
+            // console.log(v.id);
+            // console.log(vista);
 
             v.classList.remove('active');
             if (v.id === `vista-${vista}` || (vista === 'mensual' && v.id === 'calendario-mensual')) {
@@ -848,7 +850,8 @@ class DashboardReservas {
 
     abrirModalNuevaReserva() {
         // Esta función se implementará en dashboard-nueva-reserva.js
-        console.log('Abrir modal de nueva reserva');
+        // console.log('Abrir modal de nueva reserva');
+        reservaModal.abrirModal();
         // Aquí llamarías a la función del otro archivo
     }
 

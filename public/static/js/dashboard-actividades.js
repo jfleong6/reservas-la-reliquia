@@ -45,7 +45,7 @@ class ActividadesManager {
     // ✅ MÉTODO 2: Carga tradicional (para compatibilidad)
     async loadRecentActivities() {
         try {
-            console.log('📊 Cargando actividades recientes...');
+            // console.log('📊 Cargando actividades recientes...');
             
             // Si ya tenemos actividades cargadas, solo renderizar
             if (this.activities.length > 0) {
@@ -112,7 +112,7 @@ class ActividadesManager {
             // 5. Renderizar
             this.renderActivities();
             
-            console.log(`✅ ${this.activities.length} actividades cargadas`);
+            // console.log(`✅ ${this.activities.length} actividades cargadas`);
             return this.activities;
             
         } catch (error) {
@@ -147,7 +147,7 @@ class ActividadesManager {
         
         const unsubscribeMensajes = onSnapshot(mensajesQuery, 
             (snapshot) => {
-                console.log('📩 Mensajes actualizados en tiempo real');
+                // console.log('📩 Mensajes actualizados en tiempo real');
                 this.handleMensajesUpdate(snapshot);
             },
             (error) => {
@@ -164,7 +164,7 @@ class ActividadesManager {
         
         const unsubscribeReservas = onSnapshot(reservasQuery, 
             (snapshot) => {
-                console.log('📅 Reservas actualizadas en tiempo real');
+                // console.log('📅 Reservas actualizadas en tiempo real');
                 this.handleReservasUpdate(snapshot);
             },
             (error) => {

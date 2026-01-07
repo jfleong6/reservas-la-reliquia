@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nueva Reserva</title>
+    <script type="module" src="static/js/crear-reserva-1.js"></script>
+    <link rel="stylesheet" href="static/css/crear-reserva.css">
+</head>
+
+<body>
+    <button class="btn-abrir-reserva">Nueva Reserva</button>
+    <div class="nueva-reserva__modal" id="nueva-reserva-modal">
+        <form class="nueva-reserva__form" id="nueva-reserva-form">
+
+            <!-- CABECERA -->
+            <header class="nueva-reserva__header">
+                <h1 class="nueva-reserva__title">Crear Nueva Reserva  
+                <button type="button" class="nueva-reserva__cerrar" id="nueva-reserva-btn-cerrar">×</button>
+                </h1>
+
+
+                <div class="nueva-reserva__fechas">
+                    <label for="nueva-reserva-fecha-entrada">Fecha entrada
+                        <input type="date" id="nueva-reserva-fecha-entrada" required>
+                    </label>
+
+                    <label for="nueva-reserva-fecha-salida">Fecha salida
+                        <input type="date" id="nueva-reserva-fecha-salida" required>
+                    </label>
+
+                    <label for="nueva-reserva-habitacion-principal">Habitación
+                        <select id="nueva-reserva-habitacion-principal">
+                            <option value="">Seleccione una habitación</option>
+                        </select>
+                    </label>
+
+                </div>
+            </header>
+
+            <!-- NAVEGACIÓN PRINCIPAL -->
+            <nav class="nueva-reserva__steps">
+                <ul>
+                    <li class="activo" data-step="informacion">Información huésped</li>
+                    <li data-step="servicios">Servicios</li>
+                    <li data-step="habitaciones">Habitación</li>
+                    <li data-step="pagos">Pagos</li>
+                    <li data-step="confirmacion">Confirmación</li>
+                </ul>
+            </nav>
+
+            <!-- INFORMACIÓN HUÉSPED -->
+            <fieldset class="nueva-reserva__fieldset ver" id="nueva-reserva-informacion">
+
+
+                <div class="nueva-reserva__subnav">
+                    <button class="activo" type="button">Buscar huésped</button>
+                    <button type="button">Registrar huésped</button>
+                    <button type="button">Sin información</button>
+                </div>
+
+                <!-- BUSCAR HUÉSPED -->
+                <section class="nueva-reserva__buscar-huesped ver">
+                    <h2>Buscar huésped</h2>
+
+                    <label for="nueva-reserva-buscar-nombre">Nombre
+                        <input type="text" id="nueva-reserva-buscar-nombre">
+                    </label>
+
+                    <label for="nueva-reserva-buscar-apellido">Apellido
+                        <input type="text" id="nueva-reserva-buscar-apellido">
+                    </label>
+
+                    <button type="button" id="nueva-reserva-btn-buscar">Buscar</button>
+
+                    <table class="nueva-reserva__tabla">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Email</th>
+                                <th>Teléfono</th>
+                            </tr>
+                        </thead>
+                        <tbody id="nueva-reserva-resultados-huesped"></tbody>
+                    </table>
+                </section>
+
+                <!-- REGISTRO HUÉSPED -->
+                <section class="nueva-reserva__registro-huesped">
+                    <h2>Registro de huésped</h2>
+
+                    <label for="nueva-reserva-nombre">Nombre
+                        <input type="text" id="nueva-reserva-nombre" required>
+                    </label>
+
+                    <label for="nueva-reserva-apellido">Apellido
+                        <input type="text" id="nueva-reserva-apellido" required>
+                    </label>
+
+                    <label for="nueva-reserva-email">Email
+                        <input type="email" id="nueva-reserva-email" required>
+                    </label>
+
+                    <label for="nueva-reserva-telefono">Teléfono
+                        <input type="tel" id="nueva-reserva-telefono" required>
+                    </label>
+
+                    <button type="button" id="nueva-reserva-btn-registrar">Registrar huésped</button>
+                </section>
+
+                <!-- SIN INFORMACIÓN -->
+                <section class="nueva-reserva__sin-info">
+                    <h2>Reserva sin información</h2>
+                    <label for="nueva-reserva-alias">Nombre de referencia
+                        <input type="text" id="nueva-reserva-alias">
+                    </label>
+                </section>
+            </fieldset>
+
+            <!-- SERVICIOS -->
+            <fieldset class="nueva-reserva__fieldset" id="nueva-reserva-servicios">
+
+                <label for="nueva-reserva-servicio">Servicio
+                    <select id="nueva-reserva-servicio"></select>
+                </label>
+
+                <fieldset class="nueva-reserva__radio">
+                    <legend>Tipo de tarifa</legend>
+                    <label><input type="radio" name="tarifa" value="persona" checked> Persona</label>
+                    <label><input type="radio" name="tarifa" value="habitacion"> Habitación</label>
+                </fieldset>
+
+                <label for="nueva-reserva-personas">Número de personas
+                    <input type="number" id="nueva-reserva-personas" min="1" value="1">
+                </label>
+
+                <label for="nueva-reserva-descuento">Descuento
+                    <input type="number" id="nueva-reserva-descuento" min="0" value="0">
+                </label>
+
+                <button type="button" id="nueva-reserva-btn-agregar-servicio">Agregar servicio</button>
+
+                <table class="nueva-reserva__tabla">
+                    <thead>
+                        <tr>
+                            <th>Servicio</th>
+                            <th>Personas</th>
+                            <th>Descuento</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nueva-reserva-lista-servicios"></tbody>
+                </table>
+            </fieldset>
+
+            <!-- HABITACIONES -->
+            <fieldset class="nueva-reserva__fieldset" id="nueva-reserva-habitaciones">
+
+
+                <label for="nueva-reserva-habitacion">Habitación
+                    <select id="nueva-reserva-habitacion"></select>
+                </label>
+
+                <button type="button" id="nueva-reserva-btn-agregar-habitacion">Agregar habitación</button>
+
+                <table class="nueva-reserva__tabla">
+                    <thead>
+                        <tr>
+                            <th>Habitación</th>
+                            <th>Precio</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nueva-reserva-lista-habitaciones"></tbody>
+                </table>
+            </fieldset>
+
+            <!-- PAGOS -->
+            <fieldset class="nueva-reserva__fieldset" id="nueva-reserva-pagos">
+
+
+                <label for="nueva-reserva-metodo-pago">Método de pago
+                    <select id="nueva-reserva-metodo-pago"></select>
+                </label>
+
+                <label for="nueva-reserva-monto">Monto
+                    <input type="number" id="nueva-reserva-monto" min="0">
+                </label>
+
+                <button type="button" id="nueva-reserva-btn-agregar-pago">Agregar pago</button>
+
+                <table class="nueva-reserva__tabla">
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Monto</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nueva-reserva-lista-pagos"></tbody>
+                </table>
+            </fieldset>
+
+            <!-- CONFIRMACIÓN -->
+            <fieldset class="nueva-reserva__fieldset" id="nueva-reserva-confirmacion">
+
+
+                <section class="nueva-reserva__resumen" id="nueva-reserva-resumen"></section>
+
+                <button type="submit" id="nueva-reserva-btn-confirmar">Crear reserva</button>
+            </fieldset>
+
+            <footer>
+                <button type="button" id="nueva-reserva-btn-anterior">Anterior</button>
+                <button type="button" id="nueva-reserva-btn-siguiente">Siguiente</button>
+            </footer>
+
+        </form>
+    </div>
+
+
+</body>
+
+</html>

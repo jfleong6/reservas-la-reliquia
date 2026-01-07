@@ -30,7 +30,7 @@ class DashboardFirebase {
         onAuthStateChanged(auth, (user) => {
             if (user) {
                 this.user = user;
-                console.log(user);
+                // console.log(user);
                 this.loadUserData();
                 this.loadUnreadMessagesCount();
                 this.loadRecentActivity();

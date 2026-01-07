@@ -58,7 +58,7 @@ class MensajesManager {
         
         const unsubscribe = onSnapshot(baseQuery, 
             (snapshot) => {
-                console.log('🔄 Mensajes actualizados en tiempo real');
+                // console.log('🔄 Mensajes actualizados en tiempo real');
                 this.handleMessagesUpdate(snapshot);
             },
             (error) => {
@@ -464,7 +464,7 @@ class MensajesManager {
     // Método para ser llamado desde otras partes del sistema
     notifyMessageAction(action, messageId) {
         // Este método permite que otros módulos notifiquen acciones sobre mensajes
-        console.log(`Acción en mensaje: ${action} - ID: ${messageId}`);
+        // console.log(`Acción en mensaje: ${action} - ID: ${messageId}`);
         
         // Podemos disparar eventos personalizados
         const event = new CustomEvent('message-action', {

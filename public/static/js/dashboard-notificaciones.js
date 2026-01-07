@@ -89,7 +89,7 @@ class NotificacionesManager {
         // Configurar eventos del panel
         this.setupPanelEvents();
 
-        console.log('🔔 Sistema de notificaciones inicializado');
+        // console.log('🔔 Sistema de notificaciones inicializado');
     }
 
     async loadNotifications() {
@@ -104,7 +104,7 @@ class NotificacionesManager {
                 orderBy("fecha", "desc"),
                 limit(10)
             );
-            console.log("hola");
+            // console.log("hola");
 
             const mensajesSnapshot = await getDocs(mensajesQuery);
             mensajesSnapshot.forEach(docSnap => {
@@ -124,7 +124,7 @@ class NotificacionesManager {
                     action: 'viewMessage'
                 }));
             });
-            console.log("9");
+            // console.log("9");
 
 
             // 2. Reservas pendientes (hoy o próximas)
@@ -211,13 +211,13 @@ class NotificacionesManager {
                     }));
                 });
             } catch (error) {
-                console.log('No se encontraron notificaciones del sistema');
+                // console.log('No se encontraron notificaciones del sistema');
             }
 
             // Ordenar por fecha (más reciente primero)
-            console.log("=" * 50);
-            console.log(notifications);
-            console.log("=" * 50);
+            // console.log("=" * 50);
+            // console.log(notifications);
+            // console.log("=" * 50);
 
             notifications.sort((a, b) => b.timestamp - a.timestamp);
 
@@ -496,7 +496,7 @@ class NotificacionesManager {
                 this.openSystemNotification(notification.data);
                 break;
             default:
-                console.log('Acción no implementada:', notification.action);
+                // console.log('Acción no implementada:', notification.action);
         }
 
         // Cerrar el panel
@@ -729,7 +729,7 @@ class NotificacionesManager {
     openMessageDetail(messageData) {
         // Abrir detalle del mensaje
         // Podríamos integrar con el módulo de mensajes aquí
-        console.log('Abriendo mensaje:', messageData);
+        // console.log('Abriendo mensaje:', messageData);
 
         // Mostrar modal con detalle del mensaje
         const modalHTML = `
@@ -773,7 +773,7 @@ class NotificacionesManager {
 
     openReservationDetail(reservationData) {
         // Abrir detalle de la reserva
-        console.log('Abriendo reserva:', reservationData);
+        // console.log('Abriendo reserva:', reservationData);
 
         const llegada = reservationData.fecha_llegada?.toDate();
         const salida = reservationData.fecha_salida?.toDate();
