@@ -18,20 +18,10 @@
 /* ================================
    MODAL
 ================================ */
-.nueva-reserva__modal {
-  position: fixed;
-  inset: 0;
-  background: rgba(15, 23, 42, 0.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 999;
-}
+
 
 .nueva-reserva__form {
   background: white;
-  width: 95%;
-  max-width: 1100px;
   max-height: 95vh;
   overflow-y: auto;
   border-radius: var(--radius);
@@ -44,7 +34,8 @@
    HEADER
 ================================ */
 .nueva-reserva__header {
-  padding: 1.5rem 2rem;
+  background-color: lightgray;
+  padding: 0.5rem 2rem;
   border-bottom: 1px solid var(--color-borde);
 }
 
@@ -91,15 +82,19 @@ label {
 input, select {
   padding: .6rem .7rem;
   border: 1px solid var(--color-borde);
+  border-bottom: 1px solid var(--color-secundario);
   border-radius: 8px;
   font-size: .9rem;
+  margin-bottom: 1vh;
 }
 
 input:focus, select:focus {
   outline: none;
   border-color: var(--color-primario);
   box-shadow: 0 0 0 2px rgba(37,99,235,.15);
+  
 }
+
 
 /* ================================
    STEPS
@@ -158,6 +153,8 @@ input:focus, select:focus {
 }
 
 .nueva-reserva__subnav button {
+  color: var(--color-texto);
+  background: var(--color-muted);
   padding: .5rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--color-borde);
@@ -184,7 +181,7 @@ section:not(.ver) {
 }
 
 section.ver {
-  display: block;
+  display: flex;
 }
 
 /* ================================
@@ -204,14 +201,25 @@ button {
 button:hover {
   filter: brightness(1.1);
 }
-
+/* ================================
+   Informacion
+================================ */
+.contenedor-busqueda{
+  border: 1px solid var(--color-borde);
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+.nueva-reserva__buscar-huesped{
+  display: flex;
+}
 /* ================================
    TABLES
 ================================ */
 .nueva-reserva__tabla {
   width: 100%;
-  border-collapse: collapse;
-  margin-top: 1rem;
+  /* border-collapse: collapse; */
+  /* margin-top: 1rem; */
 }
 
 .nueva-reserva__tabla th {
@@ -223,6 +231,7 @@ button:hover {
 }
 
 .nueva-reserva__tabla td {
+  vertical-align: top;
   padding: .6rem;
   font-size: .8rem;
   border-bottom: 1px solid var(--color-borde);
@@ -232,6 +241,7 @@ button:hover {
    FOOTER
 ================================ */
 footer {
+  /* background-color: lightgrey; */
   display: flex;
   justify-content: space-between;
   padding: 1rem 2rem;

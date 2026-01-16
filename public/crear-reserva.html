@@ -10,14 +10,12 @@
 </head>
 
 <body>
-    <button class="btn-abrir-reserva">Nueva Reserva</button>
     <div class="nueva-reserva__modal" id="nueva-reserva-modal">
         <form class="nueva-reserva__form" id="nueva-reserva-form">
 
             <!-- CABECERA -->
             <header class="nueva-reserva__header">
-                <h1 class="nueva-reserva__title">Crear Nueva Reserva  
-                <button type="button" class="nueva-reserva__cerrar" id="nueva-reserva-btn-cerrar">×</button>
+                <h1 class="nueva-reserva__title">Crear Nueva Reserva
                 </h1>
 
 
@@ -62,21 +60,28 @@
 
                 <!-- BUSCAR HUÉSPED -->
                 <section class="nueva-reserva__buscar-huesped ver">
-                    <h2>Buscar huésped</h2>
+                    
 
-                    <label for="nueva-reserva-buscar-nombre">Nombre
-                        <input type="text" id="nueva-reserva-buscar-nombre">
-                    </label>
+                    <div class="contenedor-busqueda">
+                        <h2>Buscar huésped</h2>
+                        <label for="nueva-reserva-buscar-por">Buscar por
+                            <select id="nueva-reserva-buscar-por">
+                                <option value="documento">Cedula</option>
+                                <option value="nombre">Nombre</option>
+                                <option value="apellido">Apellido</option>
+                            </select>
+                        </label>
 
-                    <label for="nueva-reserva-buscar-apellido">Apellido
-                        <input type="text" id="nueva-reserva-buscar-apellido">
-                    </label>
-
+                        <label for="nueva-reserva-buscar-input">Ingrese datos
+                            <input type="text" id="nueva-reserva-buscar-input">
+                        </label>
                     <button type="button" id="nueva-reserva-btn-buscar">Buscar</button>
+                    </div>
 
                     <table class="nueva-reserva__tabla">
                         <thead>
                             <tr>
+                                <th>Documento</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>Email</th>
@@ -85,6 +90,7 @@
                         </thead>
                         <tbody id="nueva-reserva-resultados-huesped"></tbody>
                     </table>
+
                 </section>
 
                 <!-- REGISTRO HUÉSPED -->
@@ -117,6 +123,7 @@
                         <input type="text" id="nueva-reserva-alias">
                     </label>
                 </section>
+
             </fieldset>
 
             <!-- SERVICIOS -->

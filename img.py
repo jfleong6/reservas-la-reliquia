@@ -43,7 +43,7 @@ def optimizar_carpeta(directorio_entrada, calidad=80, ancho_max=1920):
 # --- CONFIGURACIÓN ---
 if __name__ == "__main__":
     # Cambia esto por la ruta de tu carpeta
-    mi_carpeta = "public/static/img/hab" 
+    mi_carpeta = "D:/Mis Documentos/Desktop" 
     
     if os.path.exists(mi_carpeta):
         optimizar_carpeta(mi_carpeta)
